@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Request Manager</string>
+    <string name="header_label">Open Requests</string>
+    <string-array name="placeholder_usernames">
+        <item>Username 1</item>
+        <item>Username 2</item>
+        <item>Username 3</item>
+    </string-array>
+    <string-array name="placeholder_uids">
+        <item>UID1</item>
+        <item>UID2</item>
+        <item>UID3</item>
+    </string-array>
+    <string name="placeholder_time">-1min</string>
+    <string name="approve_button_label">Approve</string>
+    <string name="cancel_button_label">Deny</string>
+    <string name="url">http://192.168.0.121:5000/final/admin/</string>
+</resources>

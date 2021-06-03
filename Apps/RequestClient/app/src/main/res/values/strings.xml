@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Request Client</string>
+    <string name="placeholder_name">Placeholder User</string>
+    <string-array name="placeholder_uids">
+        <item>pUID44556655</item>
+        <item>pUID11223344</item>
+        <item>pUID00998877</item>
+        <item>pUID01928374</item>
+    </string-array>
+    <string name="request_button_label">Request</string>
+    <string name="cancel_button_label">Cancel</string>
+    <string name="settings_button_label">Change Name</string>
+    <string name="submit_button_label">Submit</string>
+    <string name="url">http://192.168.0.121:5000/final/client/</string>
+</resources>
