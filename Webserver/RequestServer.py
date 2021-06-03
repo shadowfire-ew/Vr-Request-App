@@ -77,7 +77,6 @@ def client_cancel(id):
 
 @app.route(clprefix+"/test/request/<id>")
 def client_request_test(id):
-    # generate a placeholder request
     if(requests.count_documents({"user._id":ObjectId(id)}) > 0):
         return "user already in queue"
     else:
