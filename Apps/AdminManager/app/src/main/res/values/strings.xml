@@ -14,5 +14,5 @@
     <string name="placeholder_time">-1min</string>
     <string name="approve_button_label">Approve</string>
     <string name="cancel_button_label">Deny</string>
-    <string name="url">http://192.168.0.121:5000/final/admin/</string>
+    <string name="url">http://192.168.0.121:5000/VRreq/admin/</string>
 </resources>
