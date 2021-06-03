@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 # prep the app
 app = Flask(__name__)
-prefix = "/final"
+prefix = "/VRreq"
 # app root wasn't working for me, so i just use a string literal and will insert into all routes
 # not the perfect solution, but i dont really care that much
 
@@ -22,17 +22,17 @@ requests = db.requests
 
 @app.route(prefix+'/')
 def test():
-    # http://localhost:5000/final/
+    # http://localhost:5000/VRreq/
     return "this is working"
 
 @app.route(prefix+'/count/users')
 def count_users():
-    # http://localhost:5000/final/count/users
+    # http://localhost:5000/VRreq/count/users
     return "# of users = "+str(users.count_documents({}))
 
 @app.route(prefix+'/count/requests')
 def count_requests():
-    # http://localhost:5000/final/count/requests
+    # http://localhost:5000/VRreq/count/requests
     return "# of requests = "+str(requests.count_documents({}))
 
 @app.route(prefix+'/test/create_user/<name>')
@@ -53,13 +53,13 @@ def find_by_name(name):
 
 @app.route(prefix+'/view/users_list')
 def get_all_users():
-    # http://localhost:5000/final/view/users_list
+    # http://localhost:5000/VRreq/view/users_list
     userlist = list(users.find())
     return jsonify(fix_id(userlist))
 
 @app.route(prefix+"/view/requests_list")
 def get_all_requests():
-    # http://localhost:5000/final/view/requests_list
+    # http://localhost:5000/VRreq/view/requests_list
     requestlist = list(requests.find())
     for x in requestlist:
         x["user"]=fix_id(x["user"])
@@ -135,7 +135,7 @@ adprefix = prefix+"/admin"
 
 @app.route(adprefix+"/get_open_requests", methods=['GET'])
 def get_open_requests():
-    # http://localhost:5000/final/admin/get_open_requests
+    # http://localhost:5000/VRreq/admin/get_open_requests
     openReqs = list(requests.find({"status":"open"}))
     for x in openReqs:
         x["user"]=fix_id(x["user"])
