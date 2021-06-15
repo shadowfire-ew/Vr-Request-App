@@ -8,9 +8,12 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String RID_KEY = "ridKey";
 
     private RequestQueue queue;
+
+    public static String CHANNEL_ID = "vr_client_notify";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             sendRequest.setText(R.string.request_button_label);
+        }
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notify_channel_name);
+            String description = getString(R.string.notify_channel_desc);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,name,importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }
