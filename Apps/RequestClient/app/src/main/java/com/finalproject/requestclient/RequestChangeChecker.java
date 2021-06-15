@@ -55,6 +55,9 @@ public class RequestChangeChecker extends Worker {
                         open =response.equals("open");
                         Log.d("in the work's response",response);
                         statusChanged = response;
+                        if(!open){
+                            doNotif();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -64,43 +67,6 @@ public class RequestChangeChecker extends Worker {
                     }
                 });
         queue.add(getStatus);
-        while(waiting){
-            // do nothing
-        }
-        if(!open){
-            Log.d("not open","starting process");
-            // update the local status
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putBoolean(MainActivity.REQUEST_KEY,false).apply();
-
-            // make the notification manager
-            NotificationManagerCompat NM = NotificationManagerCompat.from(context);
-
-            // make the notification builder
-            NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(getApplicationContext(),MainActivity.CHANNEL_ID);
-
-            // creating an intent to go to main page when approved
-            Intent intent = new Intent(context,MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra(TAG,statusChanged);
-            PendingIntent pIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-            // build the notification
-            Notification notify = notifyBuilder
-                    .setContentText("Status changed to "+statusChanged)
-                    .setContentTitle("Request status changed!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT) // for backwards compat
-                    .setContentIntent(pIntent)
-                    .setAutoCancel(true)
-                    .build();
-
-            // displaying the notification
-            NM.notify(0,notify);
-
-            //canceling the work
-            WorkManager.getInstance(context).cancelWorkById(this.getId());
-        }
         return Result.success();
     }
 
@@ -108,5 +74,41 @@ public class RequestChangeChecker extends Worker {
     public void onStopped() {
         super.onStopped();
         Log.d("in the worker","work stopped");
+    }
+
+    private void doNotif(){
+        Log.d("not open","starting process");
+        // update the local status
+        SharedPreferences preferences = context.getSharedPreferences(SettingsActivity.PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putBoolean(MainActivity.REQUEST_KEY,false).apply();
+
+        // make the notification manager
+        NotificationManagerCompat NM = NotificationManagerCompat.from(context);
+
+        // make the notification builder
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(getApplicationContext(),MainActivity.CHANNEL_ID);
+
+        // creating an intent to go to main page when approved
+        Intent intent = new Intent(context,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(TAG,statusChanged);
+        PendingIntent pIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // build the notification
+        Notification notify = notifyBuilder
+                .setContentText("Status changed to "+statusChanged)
+                .setContentTitle("Request status changed!")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // for backwards compat
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+
+        // displaying the notification
+        NM.notify(0,notify);
+
+        //canceling the work
+        WorkManager.getInstance(context).cancelWorkById(this.getId());
     }
 }
