@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createNotificationChannel();
+
         preferences = getSharedPreferences(SettingsActivity.PREFERENCES_KEY, Context.MODE_PRIVATE);
 
         statusChecker = new PeriodicWorkRequest.Builder(RequestChangeChecker.class,
