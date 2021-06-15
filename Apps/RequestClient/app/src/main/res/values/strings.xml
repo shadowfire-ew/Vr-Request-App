@@ -12,4 +12,6 @@
     <string name="settings_button_label">Change Name</string>
     <string name="submit_button_label">Submit</string>
     <string name="url">http://192.168.0.121:5000/VRreq/client/</string>
+    <string name="notify_channel_name">vr_app_notify</string>
+    <string name="notify_channel_desc">Notification for the VR request app</string>
 </resources>
