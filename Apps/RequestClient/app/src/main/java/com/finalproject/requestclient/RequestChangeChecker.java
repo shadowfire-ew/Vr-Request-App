@@ -65,7 +65,7 @@ public class RequestChangeChecker extends Worker {
             SharedPreferences.Editor edit = preferences.edit();
             edit.putBoolean(MainActivity.REQUEST_KEY,false);
             NotificationManager NM = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notify = new Notification.Builder(getApplicationContext()).setContentText("Status changed to "+statusChanged)
+            Notification notify = new Notification.Builder(getApplicationContext(),MainActivity.CHANNEL_ID).setContentText("Status changed to "+statusChanged)
                     .setContentTitle("Request status changed!").setSmallIcon(R.drawable.ic_launcher_background).build();
             NM.notify(0,notify);
             WorkManager.getInstance(context).cancelWorkById(this.getId());
